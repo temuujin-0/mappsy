@@ -1,56 +1,94 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --primary: #5b9ed9;
+  /* Өнгөнүүд */
+  --primary: #5B9ED9;
+  --primary-light: #7aacd8; /* Одоогоор primary-тай ижил, шаардлагатай бол өөрчилж болно */
+  --secondary: #F8B500;
+  --secondary-light: #FFD54F; /* Secondary-ийн цайвар хувилбар */
+  --success: #27AE60;
+  --error: #EB5757;
+  --background: #F5F5F5;
+  --surface: #FFFFFF;
+  --text-main: #1F2937;
+  --text-muted: #6B7280;
+  --border-color: #E5E7EB; /* Tailwind-ийн 'border'-тэй давхцахгүй байхаар нэрлэв */
+  --hover-focus: #E0F1FB;
 
-  --cta: #2c2c2c;
-  --cta-gold: #fccc41;
-  --radius: 0.625rem;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* CTA Өнгөнүүд */
+  --cta: #2c2c2c; /* CTA-ийн хар өнгө */
+  --cta-gold: #fccc41; /* CTA-ийн алтан өнгө */
+
+  /* Shadcn/UI Компонентийн Өнгөнүүд (Шинэ палитрт тааруулав) */
+  --card: var(--surface);
+  --card-foreground: var(--text-main);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-main);
+  --primary-foreground: #FFFFFF; /* Primary дэвсгэр дээрх цагаан текст */
+  --secondary-foreground: var(--text-main); /* Secondary дэвсгэр дээрх текст */
+  --muted: var(--surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--hover-focus); /* hover/focus-ийг accent болгон ашиглав */
+  --accent-foreground: var(--text-main);
+  --destructive: var(--error);
+  --border: var(--border-color);
+  --input: var(--border-color);
+  --ring: var(--primary); /* primary-ийг ring өнгөнд ашиглав */
+
+  /* Графикийн Өнгөнүүд (шинэ утга өгөгдөөгүй тул хуучныг хэвээр үлдээв) */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+
+  /* Sidebar Өнгөнүүд (шинэ палитрт тааруулав) */
+  --sidebar: var(--surface); /* Sidebar-ын үндсэн дэвсгэр */
+  --sidebar-foreground: var(--text-main); /* Sidebar-ын үндсэн текст */
+  --sidebar-primary: var(--primary); /* Sidebar-ын идэвхтэй зүйл */
+  --sidebar-primary-foreground: #FFFFFF; /* Sidebar-ын primary текст */
+  --sidebar-accent: var(--hover-focus); /* Sidebar-ын hover/accent */
+  --sidebar-accent-foreground: var(--text-main);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--primary);
+
+  /* Фонтны төрлүүд */
+  --font-roboto: "Roboto", sans-serif;
+  --font-bricolage: "Bricolage Grotesque", sans-serif; /* Шаардлагатай бол ашиглахад зориулав */
+
+  /* Хилийн радиус */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @theme inline {
+  /* CSS хувьсагчдыг Tailwind-ийн системийн темд оруулах */
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-foreground: var(--text-main);
   --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-surface: var(--surface);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-border-color: var(--border-color);
+  --color-hover-focus: var(--hover-focus);
+
   --color-cta: var(--cta);
   --color-cta-gold: var(--cta-gold);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-bricolage: "Bricolage Grotesque", sans-serif;
+
+  --font-sans: var(--font-roboto); /* Roboto-г үндсэн sans-serif фонт болгов */
+  --font-mono: var(--font-geist-mono); /* Geist Mono хэвээрээ байна гэж үзэв */
+  --font-bricolage: var(--font-bricolage);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -59,82 +97,169 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+
   --color-ring: var(--ring);
   --color-input: var(--input);
-  --color-border: var(--border);
+  --color-border: var(--border); /* Ерөнхий border хувьсагчтай таарна */
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-primary-foreground: var(--primary-foreground);
 }
 
 body {
-  font-family: var(--font-bricolage);
+  font-family: var(--font-roboto);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Dark mode-д зориулсан өнгөнүүд */
+  --background: #121212;
+  --surface: #1E1E1E;
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --border-color: #2C2C2C;
+  --hover-focus: #2A3A4A;
+
+  /* Одоо байгаа хувьсагчдыг dark mode-д тааруулав */
+  --primary: #5B9ED9; /* Primary dark mode-д ижил хэвээр */
+  --secondary: #F8B500;
+  --secondary-light: #FFD54F;
+  --success: #27AE60;
+  --error: #EB5757;
+  --primary-foreground: #FFFFFF;
+  --secondary-foreground: var(--text-main);
+
+  --card: var(--surface);
+  --card-foreground: var(--text-main);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-main);
+  --muted: var(--surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--hover-focus);
+  --accent-foreground: var(--text-main);
+  --destructive: var(--error);
+  --input: var(--border-color);
+  --ring: var(--primary);
+
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text-main);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: var(--hover-focus);
+  --sidebar-accent-foreground: var(--text-main);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--primary);
+
+  /* Графикийн Өнгөнүүд (шинэ утга өгөгдөөгүй тул хуучныг хэвээр үлдээв) */
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
+  /* Бүх элементийн Box Sizing болон Border */
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-none; /* focus-visible:outline-2 focus-visible:outline-ring/50-г хасч энгийн болгов */
+    box-sizing: border-box; /* Бүтцийг нэг хэвийн болгоно */
   }
+
+  /* Body-ийн үндсэн тохиргоо */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-screen antialiased; /* Дэлгэцийн өндрийг дүүргэж, текстийг гөлгөр болгоно */
+    line-height: 1.5; /* Стандарт мөр хоорондын зай */
+    -webkit-font-smoothing: antialiased; /* Webkit дээр текст сайн харагдах */
+    -moz-osx-font-smoothing: grayscale; /* Firefox дээр текст сайн харагдах */
   }
+
+  /* Гарчиг (Headings) */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-text-main leading-tight; /* Гарчгийн ижил загвар */
+  }
+  h1 { @apply text-3xl md:text-4xl lg:text-5xl; }
+  h2 { @apply text-2xl md:text-3xl; }
+  h3 { @apply text-xl md:text-2xl; }
+  h4 { @apply text-lg md:text-xl; }
+  h5 { @apply text-base md:text-lg; }
+  h6 { @apply text-sm md:text-base; }
+
+  /* Параграф */
+  p {
+    @apply text-text-main leading-relaxed mb-4; /* Параграфын стандарт загвар, доогуураа зайтай */
+  }
+
+  /* Линкүүд */
+  a {
+    /* text-primary-light-ийг танихгүй байх магадлалтай тул шууд CSS хувьсагч ашиглав */
+    color: var(--primary); /* text-primary */
+    text-decoration: none; /* Үндсэндээ доогуур зураасгүй */
+    transition: color 200ms ease-in-out; /* transition-colors duration-200 */
+  }
+  a:hover {
+    color: var(--primary-light); /* hover:text-primary-light-ийг шууд CSS хувьсагч ашиглан хийв */
+    text-decoration: underline; /* Хулгана дээгүүр явахад доогуур зураастай болгоно */
+  }
+
+  /* Товчлуурууд (Үндсэн загвар, тодорхой компонент давхардна) */
+  button {
+    @apply cursor-pointer select-none;
+  }
+
+  /* Жагсаалт */
+  ul, ol {
+    @apply list-inside mb-4; /* Дотогш зайтай жагсаалт */
+  }
+  li {
+    @apply mb-1;
+  }
+
+  /* Формууд */
+  input, textarea, select {
+    @apply block w-full rounded-md border border-border-color bg-surface text-text-main py-2 px-3 placeholder:text-text-muted transition-colors duration-200; /* focus:ring-primary focus:ring-opacity-50-г хасав */
+    outline: none;
+    &:focus {
+      border-color: var(--primary); /* focus:border-primary */
+      box-shadow: 0 0 0 2px rgba(var(--ring-rgb), 0.5); /* ring-тэй төстэй загвар, ring-rgb хувьсагчийг ашиглана */
+    }
+  }
+  textarea {
+    @apply min-h-[80px]; /* Textarea-ны хамгийн бага өндөр */
+  }
+
+  /* Үндсэн Layout Бүтэц */
   main {
-    @apply mx-auto px-14 flex flex-col gap-8 bg-background h-full max-w-[1400px] pt-10 max-sm:px-2;
+    @apply mx-auto px-2 sm:px-4 lg:px-6 flex flex-col gap-8 max-w-[1400px] py-10; /* Хариу үйлдэлтэй зай, pt-10-ыг хасаж контентийн уян хатан байдлыг нэмэв */
+    min-height: calc(100vh - 80px); /* Навигацийн болон footer-ын өндрийг хасч, дэлгэцийн үлдсэн зайг дүүргэнэ */
   }
-  h1 {
-    @apply text-3xl font-bold;
+
+  nav {
+    @apply border-b flex items-center border-border-color fixed top-0 left-0 right-0 z-50 bg-surface h-11; /* Дээд талд тогтмол байрлуулж, сүүдэр нэмэв */
+  }
+  .nav-wrapper {
+    @apply mx-auto w-full flex items-center justify-between gap-2 max-w-[1400px] px-2;
+  }
+
+  /* Footer Бүтэц */
+  footer {
+    @apply bg-surface text-text-muted py-6 px-4 sm:px-6 lg:px-8 mt-auto; /* Footer-ыг доод талд түлхэнэ */
+  }
+  .footer-wrapper {
+    @apply mx-auto max-w-[1400px] text-center text-sm;
   }
 }
 
@@ -142,85 +267,183 @@ body {
   .home-section {
     @apply flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center;
   }
+
+  /* search-input - Энэ анги home-section-той ижил загвартай харагдаж байна.
+     Ийм тохиолдолд Tailwind utility-г шууд ашиглах эсвэл компонент болгон нэгтгэх нь дээр.
+     Одоогоор үлдээж байгаа ч дахин үнэлэх хэрэгтэй. */
+  .search-input {
+    @apply flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center;
+  }
+
   .companions-grid {
-    @apply flex flex-wrap gap-4 w-full max-md:justify-center;
+    @apply flex flex-wrap gap-4 w-full justify-center; /* max-md:justify-center-ээс байнга төвд байрлуулахаар өөрчлөв */
   }
+
   .companion-card {
-    @apply flex flex-col rounded-4xl border border-black px-4 py-4 gap-5 w-full min-lg:max-w-[410px] justify-between;
+    /* border-border-color, bg-card-г шууд CSS хувьсагчаар сольж байна */
+    @apply flex flex-col rounded-xl px-4 py-4 gap-5 w-full md:max-w-[410px] justify-between;
+    border: 1px solid var(--border-color);
+    background-color: var(--card);
   }
+
   .subject-badge {
-    @apply bg-black text-white rounded-4xl text-sm px-2 py-1 capitalize;
+    /* bg-text-main-г шууд CSS хувьсагчаар сольж байна */
+    @apply text-white rounded-full text-sm px-3 py-1 capitalize;
+    background-color: var(--text-main);
   }
+
   .companion-bookmark {
-    @apply px-2 bg-black rounded-4xl flex items-center h-full aspect-square cursor-pointer;
+    /* bg-text-main-г шууд CSS хувьсагчаар сольж байна */
+    @apply text-white rounded-full flex items-center justify-center h-8 w-8 aspect-square cursor-pointer;
+    background-color: var(--text-main);
   }
+
   .input {
-    @apply !border-black !bg-white focus-visible:!ring-0 focus-visible:!border-black !w-full;
+    @apply !w-full rounded-md py-2 px-3 placeholder:text-text-muted;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface);
+    /* focus-visible-ийг base layer дээр өөрчилсөн тул энд давхардахгүй байхаар тохируулав. */
+    /* Хэрэв та энд өөрчлөлт хийхгүй бол, base layer-ийн input загвартай адилхан болно. */
+    /* Засаж буй хэсэг */
+    &:focus-visible {
+      border-color: var(--primary);
+      /* focus-visible:!ring-0-г хасав. Хэрэв ring-г устгахыг хүсвэл outline: none ашиглана. */
+      outline: none; /* Default outline-г устгана */
+      /* Box shadow-г base layer дээрх шигээр энд давхардуулан нэмж болно, эсвэл base layer-т үлдээж болно. */
+      /* Одоохондоо base layer-ийн input-ийн фокус загвар хэвээрээ байна. */
+    }
   }
+
   .rounded-border {
-    @apply rounded-4xl border border-black;
+    /* border-border-color-г шууд CSS хувьсагчаар сольж байна */
+    @apply rounded-xl;
+    border: 1px solid var(--border-color);
   }
+
   .cta-section {
-    @apply bg-cta text-white rounded-4xl px-7 py-10 flex flex-col items-center text-center gap-5 w-1/3 max-lg:w-1/2 max-md:w-full;
+    @apply bg-cta text-white rounded-xl px-7 py-10 flex flex-col items-center text-center gap-5 w-full lg:w-1/3 md:w-1/2; /* Хариу үйлдэл сайтай болгов */
   }
+
   .cta-badge {
-    @apply bg-cta-gold rounded-4xl px-3 py-1.5 text-black;
+    @apply bg-cta-gold text-black rounded-full px-3 py-1.5 text-sm font-semibold; /* Илүү бөөрөнхий badge */
   }
+
   .btn-primary {
-    @apply bg-primary text-white rounded-xl cursor-pointer px-4 py-2 flex items-center gap-2;
+    /* bg-primary text-primary-foreground, hover:bg-primary-light-г шууд CSS хувьсагчаар сольж байна */
+    @apply rounded-lg cursor-pointer px-4 py-2 flex items-center gap-2 transition-colors duration-200;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
-  .navbar {
-    @apply flex items-center justify-between mx-auto w-full px-14 py-4 bg-white max-sm:px-4;
+  .btn-primary:hover {
+    background-color: var(--primary-light); /* hover:bg-primary-light */
   }
+
   .btn-signin {
-    @apply border border-black rounded-4xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 cursor-pointer;
+    /* border-border-color, text-text-main, hover:bg-hover-focus-г шууд CSS хувьсагчаар сольж байна */
+    @apply rounded-lg px-4 py-2.5 text-sm font-semibold flex items-center gap-2 cursor-pointer transition-colors duration-200;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
   }
+  .btn-signin:hover {
+    background-color: var(--hover-focus); /* hover:bg-hover-focus */
+  }
+
   .companion-list {
-    @apply rounded-4xl border border-black px-7 pt-7 pb-10 max-lg:w-full bg-white;
+    /* border-border-color, bg-surface-г шууд CSS хувьсагчаар сольж байна */
+    @apply rounded-xl px-7 pt-7 pb-10 w-full;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface);
   }
+
   .companion-limit {
-    @apply items-center justify-center flex flex-col gap-4 w-full min-2xl:w-1/2 pt-20 text-center;
+    @apply flex flex-col items-center justify-center gap-4 w-full xl:w-1/2 pt-20 text-center; /* Хэмжээг тааруулав */
   }
 
   .companion-section {
-    @apply border-2 border-orange-500 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
+    /* border-primary-г шууд CSS хувьсагчаар сольж байна */
+    @apply w-full md:w-2/3 flex flex-col gap-4 justify-center items-center rounded-lg;
+    border: 2px solid var(--primary);
   }
 
   .companion-avatar {
-    @apply size-[300px] flex items-center justify-center rounded-lg max-sm:size-[100px] mt-4;
+    @apply size-48 md:size-64 lg:size-80 flex items-center justify-center rounded-lg mt-4; /* Илүү хариу үйлдэлтэй хэмжээ */
   }
   .companion-lottie {
-    @apply size-[300px] max-sm:size-[100px];
+    @apply size-48 md:size-64 lg:size-80; /* Avatar-тай ижил хэмжээ */
   }
 
   .user-section {
-    @apply flex flex-col gap-4 w-1/3 max-sm:w-full max-sm:flex-row;
+    @apply flex flex-col gap-4 w-full md:w-1/3 sm:flex-row; /* User section-ийн хариу үйлдэл сайтай болгов */
   }
+
   .user-avatar {
-    @apply border-2 border-black flex flex-col gap-4 items-center rounded-lg py-8 max-sm:hidden;
+    /* border-border-color-г шууд CSS хувьсагчаар сольж байна */
+    @apply flex flex-col gap-4 items-center rounded-lg py-8 hidden sm:flex;
+    border: 2px solid var(--border-color);
   }
 
   .btn-mic {
-    @apply border-2 border-black rounded-lg flex flex-col gap-2 items-center py-8 max-sm:py-2 cursor-pointer w-full;
+    /* border-border-color, hover:bg-hover-focus-г шууд CSS хувьсагчаар сольж байна */
+    @apply rounded-lg flex flex-col gap-2 items-center py-8 sm:py-2 cursor-pointer w-full transition-colors duration-200;
+    border: 2px solid var(--border-color);
+  }
+  .btn-mic:hover {
+    background-color: var(--hover-focus); /* hover:bg-hover-focus */
   }
 
   .transcript {
     @apply relative flex flex-col gap-4 w-full items-center pt-10 flex-grow overflow-hidden;
   }
   .transcript-message {
-    @apply overflow-y-auto w-full flex flex-col gap-4 max-sm:gap-2 pr-2 h-full text-2xl;
+    @apply overflow-y-auto w-full flex flex-col gap-4 pr-2 h-full text-lg sm:text-xl md:text-2xl; /* Хариу үйлдэлтэй текстний хэмжээ */
   }
   .transcript-fade {
-    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
+    @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
   }
 }
 
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  /* Webkit хөтчүүдэд (Chrome, Safari, Edge) зориулсан Scrollbar загвар */
+  ::-webkit-scrollbar {
+    width: 8px; /* Босоо scrollbar-ын өргөн */
+    height: 8px; /* Хэвтээ scrollbar-ын өндөр */
+    background-color: transparent; /* Scrollbar-ын ерөнхий талбайг тунгалаг болгоно */
   }
+
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Scrollbar-ын замыг (path) тунгалаг болгоно */
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--text-muted); /* Scrollbar-ын гүйдэг хэсгийн өнгө */
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-main); /* Хулгана дээгүүр очиход гүйдэг хэсгийн өнгө */
+  }
+
+  /* Webkit дээр scrollbar-ын товчлууруудыг тусгайлан нуух */
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+  }
+
+  /* Firefox-д зориулсан Scrollbar загвар */
+  * {
+    scrollbar-width: thin; /* Scrollbar-ыг нимгэн болгоно */
+    scrollbar-color: var(--text-muted) var(--surface); /* thumb track */
+  }
+
+  /* Scrollbar-ыг бүрэн нуух utility (тодорхой элементэд шаардлагатай бол) */
   .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE болон Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Webkit хөтчүүд */
   }
 }

@@ -1,166 +1,215 @@
 // components/common/SearchInput/index.tsx
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-const categories = [
-    { id: '1', name_mn: 'Ресторан', name_en: 'Restaurant', slug: 'restaurant', subCategories: [{ id: '1a', name_mn: 'Монгол хоол', name_en: 'Mongolian' }, { id: '1b', name_mn: 'Европ хоол', name_en: 'European' }] },
-    { id: '2', name_mn: 'Дэлгүүр', name_en: 'Shop', slug: 'shop', subCategories: [{ id: '2a', name_mn: 'Хүнсний', name_en: 'Grocery' }, { id: '2b', name_mn: 'Хувцасны', name_en: 'Clothing' }] },
-    { id: '3', name_mn: 'Музей', name_en: 'Museum', slug: 'museum', subCategories: [] },
-    // ... бусад категори
+// Dummy data for search results
+interface Place {
+    id: string;
+    name: string;
+    address: string;
+    category: string;
+}
+
+const dummyPlaces: Place[] = [
+    { id: 'p1', name: 'Zaisan Hill Complex', address: 'Zaisan, Khan-Uul, Ulaanbaatar', category: 'Restaurant' },
+    { id: 'p2', name: 'Modern Nomads Restaurant', address: 'Seoul St, Chingeltei, Ulaanbaatar', category: 'Restaurant' },
+    { id: 'p3', name: 'Grand Khaan Irish Pub', address: 'Peace Avenue, Sukhbaatar, Ulaanbaatar', category: 'Restaurant' },
+    { id: 'p4', name: 'UB Gallery', address: 'Chingeltei, Ulaanbaatar', category: 'Museum' },
+    { id: 'p5', name: 'National Museum of Mongolia', address: 'Sukhbaatar, Ulaanbaatar', category: 'Museum' },
+    { id: 'p6', name: 'State Department Store', address: 'Peace Avenue, Sukhbaatar, Ulaanbaatar', category: 'Shop' },
+    { id: 'p7', name: 'Nomin Supermarket', address: 'Nairamdal, Bayangol, Ulaanbaatar', category: 'Shop' },
+    { id: 'p8', name: 'Shangri-La Mall', address: 'Olympic St, Sukhbaatar, Ulaanbaatar', category: 'Shop' },
+    { id: 'p9', name: 'Central Tower', address: 'Sukhbaatar Sq, Sukhbaatar, Ulaanbaatar', category: 'Office' },
+    { id: 'p10', name: 'Blue Sky Hotel', address: 'Peace Avenue, Sukhbaatar, Ulaanbaatar', category: 'Hotel' },
+    { id: 'p11', name: 'Terelj National Park', address: 'Gorkhi-Terelj, Nalaikh, Ulaanbaatar', category: 'Nature' },
+    { id: 'p12', name: 'Choijin Lama Temple Museum', address: 'Sukhbaatar, Ulaanbaatar', category: 'Museum' },
 ];
 
 export function SearchInput() {
     const { t } = useTranslation();
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
-    const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<{ id: string, name_mn: string, name_en: string, slug: string, subCategories: { id: string, name_mn: string, name_en: string }[] } | null>(null);
-    const [selectedSubCategory, setSelectedSubCategory] = useState<{ id: string, name_mn: string, name_en: string } | null>(null);
+    const [suggestions, setSuggestions] = useState<Place[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const [isCategoryPopoverOpen, setIsCategoryPopoverOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const isDesktop = useMediaQuery("(min-width: 640px)");
 
+    // Хайлт хийх функц
+    const handleSearch = useCallback(() => {
+        // Only proceed with search if searchTerm is not empty
+        if (!searchTerm.trim()) {
+        alert(t('Хайх үгээ оруулна уу.'));
+        return;
+        }
+        console.log(`Хайлт: ${searchTerm}`);
+        router.push(`/place?q=${encodeURIComponent(searchTerm)}`);
+        setIsDrawerOpen(false);
+        setIsPopoverOpen(false);
+    }, [searchTerm, router, t]);
+
+    // Төстэй үр дүн хайх функц
     useEffect(() => {
+        const fetchSuggestions = async () => {
         if (searchTerm.length > 2) {
-            const dummySuggestions = [
-                `Улаанбаатар хот дахь ${searchTerm}`,
-                `Зайсан дахь ${searchTerm}`,
-                `Ресторан ${searchTerm}`,
-                `Дэлгүүр ${searchTerm}`,
-            ].filter(s => s.toLowerCase().includes(searchTerm.toLowerCase()));
-            setSuggestions(dummySuggestions);
+            setIsLoading(true);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const filteredSuggestions = dummyPlaces.filter(place =>
+            place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            place.address.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setSuggestions(filteredSuggestions);
+            setIsLoading(false);
+            if (filteredSuggestions.length > 0) {
+            setIsPopoverOpen(true);
+            } else {
+            setIsPopoverOpen(false);
+            }
         } else {
             setSuggestions([]);
+            setIsLoading(false);
+            setIsPopoverOpen(false);
         }
-    }, [searchTerm, selectedCategory]);
+        };
 
-    const handleSearch = () => {
-        console.log(`Хайлт: ${searchTerm}, Ангилал: ${selectedCategory?.name_mn || 'Бүх'}, Дэд ангилал: ${selectedSubCategory?.name_mn || 'Бүх'} `);
-        alert(`Хайлт хийгдлээ: ${searchTerm}, Ангилал: ${selectedCategory?.name_mn || 'Бүх'}, Дэд ангилал: ${selectedSubCategory?.name_mn || 'Бүх'}`);
+        const timer = setTimeout(() => {
+        fetchSuggestions();
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // Input дээр Enter дарах үед хайлт хийх
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+        // Утга хоосон бол зүгээр л буцаана (alert харуулахгүй).
+        if (!searchTerm.trim()) {
+            return; // Утга хоосон бол хайлт хийхгүй, мөн alert ч харуулахгүй
+        }
+        handleSearch();
+        }
     };
 
-    // Сонгосон категори болон дэд категорийг харуулах текст
-    const displayCategoryText = () => {
-        let text = selectedCategory ? selectedCategory.name_mn : t("Бүх ангилал");
-        if (selectedSubCategory) {
-            text += ` / ${selectedSubCategory.name_mn}`;
-        }
-        return text;
-    };
+    // Shared search input and suggestions content
+    const SearchInputAndSuggestions = (
+        <div className="relative flex-grow w-full">
+        <Input
+            ref={searchInputRef}
+            type="text"
+            placeholder={t("Хайх...")}
+            className="pr-10 pl-4 py-1.5 w-full h-full border rounded-md shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+        />
+        {/* Search icon баруун талд */}
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleSearch}
+            className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-10 p-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            disabled={isLoading || !searchTerm.trim()} // Disable button if loading or search term is empty
+        >
+            {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            ) : (
+            <Search className="h-5 w-5 text-muted-foreground" />
+            )}
+        </Button>
+
+        {/* Хайлтын санал - Popover дотор */}
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <PopoverTrigger asChild>
+            {/* PopoverTrigger-ийг хайлтын Input-тэй ижил хэмжээтэй болгож, харагдахгүй болгоно */}
+            <div className="absolute w-full h-full top-0 left-0 -z-10 cursor-default" />
+            </PopoverTrigger>
+            <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+            {suggestions.length > 0 ? (
+                <Command>
+                <CommandList>
+                    <CommandGroup>
+                    {suggestions.slice(0, 10).map((place) => (
+                        <CommandItem
+                        key={place.id}
+                        value={place.name}
+                        onSelect={() => {
+                            setSearchTerm(place.name);
+                            setSuggestions([]);
+                            setIsPopoverOpen(false);
+                            searchInputRef.current?.focus();
+                            handleSearch();
+                        }}
+                        className="cursor-pointer"
+                        >
+                        {place.name} <span className="text-muted-foreground text-sm ml-2">{place.address}</span>
+                        </CommandItem>
+                    ))}
+                    </CommandGroup>
+                </CommandList>
+                </Command>
+            ) : (
+                !isLoading && searchTerm.length > 2 && (
+                <div className="px-4 py-2 text-muted-foreground text-center">
+                    {t('Илэрц олдсонгүй.')}
+                </div>
+                )
+            )}
+            {suggestions.length > 10 && (
+                <div className="px-4 py-2 text-center text-primary cursor-pointer hover:underline" onClick={() => {
+                handleSearch();
+                setIsPopoverOpen(false);
+                }}>
+                {t('Илэрц бүгдийг харах')}
+                </div>
+            )}
+            </PopoverContent>
+        </Popover>
+        </div>
+    );
 
     return (
-        <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 border rounded-md overflow-hidden flex-grow max-w-2xl w-full">
-            {/* Ангилал сонгох Popover */}
-            <Popover open={isCategoryPopoverOpen} onOpenChange={setIsCategoryPopoverOpen}>
-                <PopoverTrigger asChild>
-                    <Button
-                        variant="ghost"
-                        className="flex items-center gap-1 w-full sm:w-1/3 justify-between rounded-none h-10 px-3"
-                    >
-                        <span className="truncate">{displayCategoryText()}</span>
-                        <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[300px] p-0" align="start">
-                    <Command>
-                        <CommandList>
-                            <CommandEmpty>{t('Ангилал олдсонгүй.')}</CommandEmpty>
-                            <CommandGroup>
-                                {categories.map((category) => (
-                                    <CommandItem
-                                        key={category.id}
-                                        value={category.name_mn}
-                                        onSelect={() => {
-                                            setSelectedCategory(category);
-                                            setSelectedSubCategory(null);
-                                            if (category.subCategories.length === 0) {
-                                                setIsCategoryPopoverOpen(false);
-                                            }
-                                        }}
-                                        className={`cursor-pointer hover:bg-none flex items-center justify-between ${selectedCategory?.id === category.id ? 'bg-accent text-accent-foreground' : ''}`} // Энд класс нэмсэн
-                                        aria-selected={selectedCategory?.id === category.id}
-                                        data-selected={selectedCategory?.id === category.id ? "true" : undefined}
-                                    >
-                                        <span>{category.name_mn}</span>
-                                        {category.subCategories.length > 0 && <ChevronDown className="h-4 w-4 rotate-270" />}
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
-                            {selectedCategory && selectedCategory.subCategories.length > 0 && (
-                                <>
-                                    <CommandEmpty>{t('Дэд ангилал олдсонгүй.')}</CommandEmpty>
-                                    <CommandGroup heading={`${selectedCategory.name_mn} дэд ангилал`}>
-                                        {selectedCategory.subCategories.map((subCat) => (
-                                            <CommandItem
-                                                key={subCat.id}
-                                                value={subCat.name_mn}
-                                                onSelect={() => {
-                                                    setSelectedSubCategory(subCat);
-                                                    setIsCategoryPopoverOpen(false);
-                                                }}
-                                                className={`cursor-pointer ${selectedSubCategory?.id === subCat.id ? 'bg-accent text-accent-foreground' : ''}`} // Энд класс нэмсэн
-                                                aria-selected={selectedSubCategory?.id === subCat.id}
-                                                data-selected={selectedSubCategory?.id === subCat.id ? "true" : undefined}
-                                            >
-                                                {subCat.name_mn}
-                                            </CommandItem>
-                                        ))}
-                                    </CommandGroup>
-                                </>
-                            )}
-                        </CommandList>
-                    </Command>
-                </PopoverContent>
-            </Popover>
-            <span className='text-foreground'></span>
-            {/* Хайлтын оролт */}
-            <div className="relative flex-grow h-10">
-                <Input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder={t("Хайх...")}
-                    className="pl-10 pr-4 py-2 w-full h-full border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                            handleSearch();
-                        }
-                    }}
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-
-                {/* Хайлтын санал */}
-                {suggestions.length > 0 && searchTerm.length > 0 && (
-                    <div className="absolute z-10 w-full bg-popover border rounded-md shadow-lg mt-1 max-h-60 overflow-auto top-full left-0">
-                        {suggestions.map((suggestion, index) => (
-                            <div
-                                key={index}
-                                className="px-4 py-2 hover:bg-accent cursor-pointer"
-                                onClick={() => {
-                                    setSearchTerm(suggestion);
-                                    setSuggestions([]);
-                                    searchInputRef.current?.focus();
-                                }}
-                            >
-                                {suggestion}
-                            </div>
-                        ))}
-                    </div>
-                )}
+        <div className="flex justify-center w-full">
+        {isDesktop ? (
+            <div className="flex items-center overflow-hidden flex-grow max-w-2xl">
+            {SearchInputAndSuggestions}
             </div>
-
-            <Button
-                onClick={handleSearch}
-                className="w-full sm:w-auto sm:hidden rounded-none h-10"
-            >
-                <Search className="h-5 w-5 mr-2" /> {t("Хайх")}
-            </Button>
+        ) : (
+            <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} direction="left">
+                <DrawerTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full sm:hidden">
+                    <Search className="h-5 w-5" />
+                    </Button>
+                </DrawerTrigger>
+                <DrawerContent className="h-full w-full max-w-sm right-0 top-0 mt-0 rounded-none fixed">
+                    <DrawerHeader>
+                    <DrawerTitle>{t("Хайлт хийх")}</DrawerTitle>
+                    <DrawerDescription>{t("Хайх үгээ оруулна уу.")}</DrawerDescription>
+                    </DrawerHeader>
+                    <div className="px-4 py-2 flex flex-col items-center">
+                    {SearchInputAndSuggestions}
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        )}
         </div>
     );
 }
