@@ -13,7 +13,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'; // useMediaQuery-г им�
 export function Navbar() {
     const { t } = useTranslation();
     const isDesktop = useMediaQuery("(min-width: 640px)"); // sm breakpoint
-
+    
     return (
         <nav>
             <div className='nav-wrapper'>

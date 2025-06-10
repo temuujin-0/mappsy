@@ -289,341 +289,341 @@ export default function ThemePreviewPage() {
     ]
 
     return (
-        <main className="p-6 space-y-10">
-        <h1>🎨 Theme</h1>
+        <Card className="p-6 m-6 mt-16 space-y-10">
+            <h1>🎨 Theme</h1>
 
-        <section className="">
-            <h2 className="text-xl font-semibold mb-2">🌗 Сэдэв солих</h2>
-            <ThemeToggle />
-        </section>
+            <section className="">
+                <h2 className="text-xl font-semibold mb-2">🌗 Сэдэв солих</h2>
+                <ThemeToggle />
+            </section>
 
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🔤 Inputs</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-2"><Label>Текст</Label><Input type="text" placeholder="Текст оруулна уу" /></div>
-                <div className="flex flex-col gap-2"><Label>И-мэйл</Label><Input type="email" placeholder="example@mail.com" /></div>
-                <div className="flex flex-col gap-2"><Label>Нууц үг</Label><Input type="password" placeholder="••••••" /></div>
-                <div className="flex flex-col gap-2"><Label>Утас</Label><Input type="tel" placeholder="+976 xxxx xxxx" /></div>
-                <div className="flex flex-col gap-2"><Label>Тоон утга</Label><Input type="number" placeholder="123" /></div>
-                <div className="flex flex-col gap-2"><Label>URL</Label><Input type="url" placeholder="https://" /></div>
-                <div className="flex flex-col gap-2"><Label>Файл</Label><Input type="file" /></div>
-            </div>
-        </section>
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🔤 Form</h2>
-            <Forms
-                fields={userFormFields}
-                // selectedData={initialUserData}
-                onSubmit={handleSubmit}
-                onCancel={handleCancel}
-                submitButtonText="Бүртгүүлэх"
-                cancelButtonText="Болих"
-            />
-        </section>
-
-        <div className="p-6 space-y-10">
-            <h1 className="text-2xl font-bold">📅 Calendar төрлүүд</h1>
-
-            {/* Single */}
             <section className="space-y-4">
-                <Label>🟢 Single огноо сонголт</Label>
-                <Calendar
-                    mode="single"
-                    selected={singleDate}
-                    onSelect={setSingleDate}
-                    className="border rounded-md"
+                <h2 className="text-xl font-semibold">🔤 Inputs</h2>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <div className="flex flex-col gap-2"><Label>Текст</Label><Input type="text" placeholder="Текст оруулна уу" /></div>
+                    <div className="flex flex-col gap-2"><Label>И-мэйл</Label><Input type="email" placeholder="example@mail.com" /></div>
+                    <div className="flex flex-col gap-2"><Label>Нууц үг</Label><Input type="password" placeholder="••••••" /></div>
+                    <div className="flex flex-col gap-2"><Label>Утас</Label><Input type="tel" placeholder="+976 xxxx xxxx" /></div>
+                    <div className="flex flex-col gap-2"><Label>Тоон утга</Label><Input type="number" placeholder="123" /></div>
+                    <div className="flex flex-col gap-2"><Label>URL</Label><Input type="url" placeholder="https://" /></div>
+                    <div className="flex flex-col gap-2"><Label>Файл</Label><Input type="file" /></div>
+                </div>
+            </section>
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🔤 Form</h2>
+                <Forms
+                    fields={userFormFields}
+                    // selectedData={initialUserData}
+                    onSubmit={handleSubmit}
+                    onCancel={handleCancel}
+                    submitButtonText="Бүртгүүлэх"
+                    cancelButtonText="Болих"
                 />
             </section>
 
-            {/* Multiple */}
-            <section className="space-y-4">
-                <Label>🟡 Multiple огноо сонголт</Label>
-                <Calendar
-                    mode="multiple"
-                    selected={multipleDates}
-                    onSelect={(dates) => setMultipleDates(dates ?? [])}
-                    className="border rounded-md"
-                />
-            </section>
+            <div className="p-6 space-y-10">
+                <h1 className="text-2xl font-bold">📅 Calendar төрлүүд</h1>
 
-            {/* Range */}
-            <section className="space-y-4">
-                <Label>🔵 Огнооны Range сонголт</Label>
-                <Calendar
-                    mode="range"
-                    selected={range}
-                    onSelect={(val) => setRange(val)}
-                    numberOfMonths={2}
-                    className="border rounded-md"
-                />
-            </section>
+                {/* Single */}
+                <section className="space-y-4">
+                    <Label>🟢 Single огноо сонголт</Label>
+                    <Calendar
+                        mode="single"
+                        selected={singleDate}
+                        onSelect={setSingleDate}
+                        className="border rounded-md"
+                    />
+                </section>
 
-            {/* Popover - single */}
-            <section className="space-y-4">
-                <Label>📆 Popover хэлбэрээр Single Calendar</Label>
-                <Popover>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-[250px] justify-start text-left font-normal">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {singleDate ? format(singleDate, "PPP") : <span>Огноо сонгох</span>}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={singleDate} onSelect={setSingleDate} initialFocus />
-                </PopoverContent>
-                </Popover>
-            </section>
+                {/* Multiple */}
+                <section className="space-y-4">
+                    <Label>🟡 Multiple огноо сонголт</Label>
+                    <Calendar
+                        mode="multiple"
+                        selected={multipleDates}
+                        onSelect={(dates) => setMultipleDates(dates ?? [])}
+                        className="border rounded-md"
+                    />
+                </section>
 
-            {/* Popover - range */}
-            <section className="space-y-4">
-                <Label>📅 Popover Range Date Picker</Label>
-                <Popover>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-[300px] justify-start text-left font-normal">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {range?.from ? (
-                        range.to ? (
-                        <>
-                            {format(range.from, "yyyy-MM-dd")} <ArrowRight/> {format(range.to, "yyyy-MM-dd")}
-                        </>
-                        ) : (
-                        format(range.from, "yyyy-MM-dd")
-                        )
-                    ) : (
-                        <span>Хугацааны интервал сонгоно уу</span>
-                    )}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                {/* Range */}
+                <section className="space-y-4">
+                    <Label>🔵 Огнооны Range сонголт</Label>
                     <Calendar
                         mode="range"
                         selected={range}
                         onSelect={(val) => setRange(val)}
                         numberOfMonths={2}
-                        initialFocus
+                        className="border rounded-md"
                     />
-                </PopoverContent>
-                </Popover>
-            </section>
-        </div>
+                </section>
 
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">Товчлуур</h2>
-            <div className="flex items-center gap-2">
-                <Button>Энгийн</Button>
-                <Button variant="outline">Хүрээтэй</Button>
-                <Button variant="destructive">Устгах</Button>
-                <Button disabled>Идэвхгүй</Button>
-                <Button>
-                <span className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-                    Уншиж байна...
-                </Button>
-            </div>
-        </section>
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold"> Slide (Carousel)</h2>
-            <div className="overflow-x-auto whitespace-nowrap space-x-4 flex">
-                <div className="w-60 h-32 bg-gray-300 inline-block">Slide 1</div>
-                <div className="w-60 h-32 bg-gray-400 inline-block">Slide 2</div>
-                <div className="w-60 h-32 bg-gray-500 inline-block">Slide 3</div>
-            </div>
-        </section>
+                {/* Popover - single */}
+                <section className="space-y-4">
+                    <Label>📆 Popover хэлбэрээр Single Calendar</Label>
+                    <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-[250px] justify-start text-left font-normal">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {singleDate ? format(singleDate, "PPP") : <span>Огноо сонгох</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar mode="single" selected={singleDate} onSelect={setSingleDate} initialFocus />
+                    </PopoverContent>
+                    </Popover>
+                </section>
 
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🧾 Текст талбар</h2>
-            <Textarea placeholder="Тайлбар бичнэ үү..." />
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">✅ Чекбокс, Унтраалга</h2>
-            <div className="flex items-center gap-4">
-            <Checkbox id="terms" /> <Label htmlFor="terms">Нөхцөл зөвшөөрөх</Label>
-            <Switch /> <Label>Горим солих</Label>
-            </div>
-        </section>
-
-        <section className="space-y-4">
-            <div>
-                <h2 className="text-xl font-semibold">📦 Сонголт (Select)</h2>
-                {/* <Select>
-                <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="Сонголт хийнэ үү" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="one">Нэг</SelectItem>
-                    <SelectItem value="two">Хоёр</SelectItem>
-                    <SelectItem value="three">Гурав</SelectItem>
-                </SelectContent>
-                </Select> */}
-                <SingleSelect
-                    options={cities}
-                    value={selectedCity}
-                    onChange={setSelectedCity}
-                    placeholder="Хот сонгоно уу"
-                    isClearable
-                    isSearchable
-                />
-            </div>
-            <div>
-                <h2 className="text-xl font-semibold mb-4">Хэлний сонголт</h2>
-                <MultiSelect
-                    options={languages}
-                    value={selectedLanguages}
-                    onChange={setSelectedLanguages}
-                    placeholder="Хэл сонгоно уу"
-                    isSearchable={true}
-                    clearAllLabel="Бүх хэлийг цэвэрлэх"
-                />
-            </div>
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">📁 Tabs</h2>
-            <Tabs defaultValue="info">
-            <TabsList>
-                <TabsTrigger value="info">Мэдээлэл</TabsTrigger>
-                <TabsTrigger value="settings">Тохиргоо</TabsTrigger>
-            </TabsList>
-            <TabsContent value="info">Хэрэглэгчийн мэдээлэл</TabsContent>
-            <TabsContent value="settings">Тохиргооны хэсэг</TabsContent>
-            </Tabs>
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🧾 Карт</h2>
-            <Card className="max-w-sm">
-            <CardHeader><CardTitle>Гарчиг</CardTitle></CardHeader>
-            <CardContent><p>Картын жишээ тайлбар</p></CardContent>
-            </Card>
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🧍 Аватар</h2>
-            <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
-                <AvatarFallback>АБ</AvatarFallback>
-            </Avatar>
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🖼️ Зураг</h2>
-            <LucideImage className="w-8 h-8" />
-            <img src="https://placehold.co/150x150" alt="Жишээ зураг" className="rounded-md border" />
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">📄 Paginated Table</h2>
-
-            <DataTable columns={columns} data={data} pageSize={3} />
-        </section>
-        
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🪟 Modal & Drawer</h2>
-            <Dialog>
-                <DialogTrigger asChild>
-                    {/* Энэ товчийг дарахад Dialog нээгдэнэ. */}
-                    <Button variant="outline">Диалог нээх</Button>
-                </DialogTrigger>
-
-                <DialogContent
-                    // Диалог нээгдэх үед хийх үйлдлүүд (фокус шилжүүлэх)
-                    onOpenAutoFocus={(event) => {
-                    event.preventDefault(); // Автомат фокус шилжилтийг зогсооно
-                    emailRef.current?.focus(); // Манай email input руу фокусыг шилжүүлнэ
-                    }}
-                    // Диалог хаагдах үед фокусыг буцаах (анхдагчаар нээсэн элемент рүү буцаана)
-                    // Хэрэв өөр газар руу шилжүүлэх шаардлагагүй бол энэ пропыг нэмэхгүй байж болно.
-                    // onCloseAutoFocus={(event) => {
-                    //   // event.preventDefault(); // Анхдагч фокус буцаалтыг зогсооно
-                    //   // drawerTriggerRef.current?.focus(); // Хүссэн элемент рүү фокусыг буцаана
-                    // }}
-                >
-                    <DialogHeader>
-                    {/* Диалогийн гарчиг - Энэ нь Radix-ийн Title компонентыг ашиглаж байна */}
-                    <DialogTitle>Бүртгүүлэх</DialogTitle>
-                    {/* Диалогийн тайлбар - Энэ нь Radix-ийн Description компонентыг ашиглаж байна */}
-                    {/* Энэ нь "Missing Description" анхааруулгыг шийднэ. */}
-                    <DialogDescription>
-                        Манай үйлчилгээнд нэгдэхийн тулд имэйл хаягаа оруулна уу.
-                    </DialogDescription>
-                    </DialogHeader>
-
-                    <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <label htmlFor="email" className="text-right">
-                        Имэйл
-                        </label>
-                        <Input
-                        id="email"
-                        defaultValue="user@example.com"
-                        className="col-span-3"
-                        ref={emailRef} // Энэ input руу фокус шилжүүлэхийн тулд ref-ийг нэмнэ
+                {/* Popover - range */}
+                <section className="space-y-4">
+                    <Label>📅 Popover Range Date Picker</Label>
+                    <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-[300px] justify-start text-left font-normal">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {range?.from ? (
+                            range.to ? (
+                            <>
+                                {format(range.from, "yyyy-MM-dd")} <ArrowRight/> {format(range.to, "yyyy-MM-dd")}
+                            </>
+                            ) : (
+                            format(range.from, "yyyy-MM-dd")
+                            )
+                        ) : (
+                            <span>Хугацааны интервал сонгоно уу</span>
+                        )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                            mode="range"
+                            selected={range}
+                            onSelect={(val) => setRange(val)}
+                            numberOfMonths={2}
+                            initialFocus
                         />
-                    </div>
-                    {/* Нэмэлт форм эсвэл бусад агуулга */}
-                    </div>
-
-                    <DialogFooter>
-                    <Button type="submit">Бүртгүүлэх</Button>
-                    {/* DialogClose нь Dialog-ийг хаахад ашиглагдана */}
-                    <DialogClose asChild>
-                        <Button variant="secondary">Цуцлах</Button>
-                    </DialogClose>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-            <Drawer>
-                <DrawerTrigger asChild>
-                    <Button variant="outline">Дэлгэрэнгүйг харах</Button>
-                </DrawerTrigger>
-                <DrawerContent
-                    // Drawer нээгдэх үед хийх үйлдлүүд
-                    onOpenAutoFocus={(event) => {
-                    // Үндсэн фокус шилжилтийг зогсооно
-                    event.preventDefault();
-                    // Drawer доторх хүссэн элемент рүү фокусыг шилжүүлнэ
-                    firstInputRef.current?.focus();
-                    }}
-                    // Drawer хаагдах үед хийх үйлдлүүд (ихэвчлэн Drawer-ийг нээсэн элемент рүү фокусыг буцаана)
-                    onCloseAutoFocus={(event) => {
-                    // Энд автоматаар фокусыг буцаахыг зогсоох шаардлагагүй байж болно.
-                    // Хэрэв та Drawer-ийг нээсэн товчин дээр фокус үлдэхийг хүсвэл,
-                    // vaul/radix үүнийг анхдагчаар хийдэг.
-                    // Хэрэв өөр газар руу шилжүүлэх шаардлагатай бол event.preventDefault() ашиглана.
-                    }}
-                >
-                    <DrawerHeader>
-                    <DrawerTitle>Газрын дэлгэрэнгүй мэдээлэл</DrawerTitle>
-                    <DrawerDescription>
-                        Энэ нь тухайн газрын талаарх нэмэлт мэдээлэл юм.
-                    </DrawerDescription>
-                    </DrawerHeader>
-
-                    <div className="p-4 overflow-y-auto">
-                    {/* Энд жишээ input элемент. Та үүнийг өөрийн эхний интерактив элементээр солино. */}
-                    <input ref={firstInputRef} type="text" placeholder="Эхний оролт" className="border p-2 rounded" />
-                    <p>Энд тухайн газрын нэр, байршил, үнэлгээ, зураг гэх мэт мэдээллүүд байна.</p>
-                    </div>
-
-                    <DrawerFooter>
-                    <Button>Хадгалах/Үзэх</Button>
-                    <DrawerClose asChild>
-                        <Button variant="outline">Хаах</Button>
-                    </DrawerClose>
-                    </DrawerFooter>
-                </DrawerContent>
-            </Drawer>
-        </section>
-
-        <section className="space-y-4">
-            <h2 className="text-xl font-semibold">🔲 Grid</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-200 p-4 text-center rounded">1</div>
-            <div className="bg-gray-200 p-4 text-center rounded">2</div>
-            <div className="bg-gray-200 p-4 text-center rounded">3</div>
-            <div className="bg-gray-200 p-4 text-center rounded">4</div>
+                    </PopoverContent>
+                    </Popover>
+                </section>
             </div>
-        </section>
-        </main>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">Товчлуур</h2>
+                <div className="flex items-center gap-2">
+                    <Button>Энгийн</Button>
+                    <Button variant="outline">Хүрээтэй</Button>
+                    <Button variant="destructive">Устгах</Button>
+                    <Button disabled>Идэвхгүй</Button>
+                    <Button>
+                    <span className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        Уншиж байна...
+                    </Button>
+                </div>
+            </section>
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold"> Slide (Carousel)</h2>
+                <div className="overflow-x-auto whitespace-nowrap space-x-4 flex">
+                    <div className="w-60 h-32 bg-gray-300 inline-block">Slide 1</div>
+                    <div className="w-60 h-32 bg-gray-400 inline-block">Slide 2</div>
+                    <div className="w-60 h-32 bg-gray-500 inline-block">Slide 3</div>
+                </div>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🧾 Текст талбар</h2>
+                <Textarea placeholder="Тайлбар бичнэ үү..." />
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">✅ Чекбокс, Унтраалга</h2>
+                <div className="flex items-center gap-4">
+                <Checkbox id="terms" /> <Label htmlFor="terms">Нөхцөл зөвшөөрөх</Label>
+                <Switch /> <Label>Горим солих</Label>
+                </div>
+            </section>
+
+            <section className="space-y-4">
+                <div>
+                    <h2 className="text-xl font-semibold">📦 Сонголт (Select)</h2>
+                    {/* <Select>
+                    <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder="Сонголт хийнэ үү" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="one">Нэг</SelectItem>
+                        <SelectItem value="two">Хоёр</SelectItem>
+                        <SelectItem value="three">Гурав</SelectItem>
+                    </SelectContent>
+                    </Select> */}
+                    <SingleSelect
+                        options={cities}
+                        value={selectedCity}
+                        onChange={setSelectedCity}
+                        placeholder="Хот сонгоно уу"
+                        isClearable
+                        isSearchable
+                    />
+                </div>
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">Хэлний сонголт</h2>
+                    <MultiSelect
+                        options={languages}
+                        value={selectedLanguages}
+                        onChange={setSelectedLanguages}
+                        placeholder="Хэл сонгоно уу"
+                        isSearchable={true}
+                        clearAllLabel="Бүх хэлийг цэвэрлэх"
+                    />
+                </div>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">📁 Tabs</h2>
+                <Tabs defaultValue="info">
+                <TabsList>
+                    <TabsTrigger value="info">Мэдээлэл</TabsTrigger>
+                    <TabsTrigger value="settings">Тохиргоо</TabsTrigger>
+                </TabsList>
+                <TabsContent value="info">Хэрэглэгчийн мэдээлэл</TabsContent>
+                <TabsContent value="settings">Тохиргооны хэсэг</TabsContent>
+                </Tabs>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🧾 Карт</h2>
+                <Card className="max-w-sm">
+                <CardHeader><CardTitle>Гарчиг</CardTitle></CardHeader>
+                <CardContent><p>Картын жишээ тайлбар</p></CardContent>
+                </Card>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🧍 Аватар</h2>
+                <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
+                    <AvatarFallback>АБ</AvatarFallback>
+                </Avatar>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🖼️ Зураг</h2>
+                <LucideImage className="w-8 h-8" />
+                <img src="https://placehold.co/150x150" alt="Жишээ зураг" className="rounded-md border" />
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">📄 Paginated Table</h2>
+
+                <DataTable columns={columns} data={data} pageSize={3} />
+            </section>
+            
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🪟 Modal & Drawer</h2>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        {/* Энэ товчийг дарахад Dialog нээгдэнэ. */}
+                        <Button variant="outline">Диалог нээх</Button>
+                    </DialogTrigger>
+
+                    <DialogContent
+                        // Диалог нээгдэх үед хийх үйлдлүүд (фокус шилжүүлэх)
+                        onOpenAutoFocus={(event) => {
+                        event.preventDefault(); // Автомат фокус шилжилтийг зогсооно
+                        emailRef.current?.focus(); // Манай email input руу фокусыг шилжүүлнэ
+                        }}
+                        // Диалог хаагдах үед фокусыг буцаах (анхдагчаар нээсэн элемент рүү буцаана)
+                        // Хэрэв өөр газар руу шилжүүлэх шаардлагагүй бол энэ пропыг нэмэхгүй байж болно.
+                        // onCloseAutoFocus={(event) => {
+                        //   // event.preventDefault(); // Анхдагч фокус буцаалтыг зогсооно
+                        //   // drawerTriggerRef.current?.focus(); // Хүссэн элемент рүү фокусыг буцаана
+                        // }}
+                    >
+                        <DialogHeader>
+                        {/* Диалогийн гарчиг - Энэ нь Radix-ийн Title компонентыг ашиглаж байна */}
+                        <DialogTitle>Бүртгүүлэх</DialogTitle>
+                        {/* Диалогийн тайлбар - Энэ нь Radix-ийн Description компонентыг ашиглаж байна */}
+                        {/* Энэ нь "Missing Description" анхааруулгыг шийднэ. */}
+                        <DialogDescription>
+                            Манай үйлчилгээнд нэгдэхийн тулд имэйл хаягаа оруулна уу.
+                        </DialogDescription>
+                        </DialogHeader>
+
+                        <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <label htmlFor="email" className="text-right">
+                            Имэйл
+                            </label>
+                            <Input
+                            id="email"
+                            defaultValue="user@example.com"
+                            className="col-span-3"
+                            ref={emailRef} // Энэ input руу фокус шилжүүлэхийн тулд ref-ийг нэмнэ
+                            />
+                        </div>
+                        {/* Нэмэлт форм эсвэл бусад агуулга */}
+                        </div>
+
+                        <DialogFooter>
+                        <Button type="submit">Бүртгүүлэх</Button>
+                        {/* DialogClose нь Dialog-ийг хаахад ашиглагдана */}
+                        <DialogClose asChild>
+                            <Button variant="secondary">Цуцлах</Button>
+                        </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+                <Drawer>
+                    <DrawerTrigger asChild>
+                        <Button variant="outline">Дэлгэрэнгүйг харах</Button>
+                    </DrawerTrigger>
+                    <DrawerContent
+                        // Drawer нээгдэх үед хийх үйлдлүүд
+                        onOpenAutoFocus={(event) => {
+                        // Үндсэн фокус шилжилтийг зогсооно
+                        event.preventDefault();
+                        // Drawer доторх хүссэн элемент рүү фокусыг шилжүүлнэ
+                        firstInputRef.current?.focus();
+                        }}
+                        // Drawer хаагдах үед хийх үйлдлүүд (ихэвчлэн Drawer-ийг нээсэн элемент рүү фокусыг буцаана)
+                        onCloseAutoFocus={(event) => {
+                        // Энд автоматаар фокусыг буцаахыг зогсоох шаардлагагүй байж болно.
+                        // Хэрэв та Drawer-ийг нээсэн товчин дээр фокус үлдэхийг хүсвэл,
+                        // vaul/radix үүнийг анхдагчаар хийдэг.
+                        // Хэрэв өөр газар руу шилжүүлэх шаардлагатай бол event.preventDefault() ашиглана.
+                        }}
+                    >
+                        <DrawerHeader>
+                        <DrawerTitle>Газрын дэлгэрэнгүй мэдээлэл</DrawerTitle>
+                        <DrawerDescription>
+                            Энэ нь тухайн газрын талаарх нэмэлт мэдээлэл юм.
+                        </DrawerDescription>
+                        </DrawerHeader>
+
+                        <div className="p-4 overflow-y-auto">
+                        {/* Энд жишээ input элемент. Та үүнийг өөрийн эхний интерактив элементээр солино. */}
+                        <input ref={firstInputRef} type="text" placeholder="Эхний оролт" className="border p-2 rounded" />
+                        <p>Энд тухайн газрын нэр, байршил, үнэлгээ, зураг гэх мэт мэдээллүүд байна.</p>
+                        </div>
+
+                        <DrawerFooter>
+                        <Button>Хадгалах/Үзэх</Button>
+                        <DrawerClose asChild>
+                            <Button variant="outline">Хаах</Button>
+                        </DrawerClose>
+                        </DrawerFooter>
+                    </DrawerContent>
+                </Drawer>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold">🔲 Grid</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-gray-200 p-4 text-center rounded">1</div>
+                <div className="bg-gray-200 p-4 text-center rounded">2</div>
+                <div className="bg-gray-200 p-4 text-center rounded">3</div>
+                <div className="bg-gray-200 p-4 text-center rounded">4</div>
+                </div>
+            </section>
+        </Card>
     );
 }

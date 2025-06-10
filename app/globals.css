@@ -230,7 +230,7 @@ body {
 
   /* Формууд */
   input, textarea, select {
-    @apply block w-full rounded-md border border-border-color bg-surface text-text-main py-2 px-3 placeholder:text-text-muted transition-colors duration-200; /* focus:ring-primary focus:ring-opacity-50-г хасав */
+    @apply block w-full rounded-md border border-border-color bg-surface text-text-main py-2 px-3 placeholder:text-text-muted transition-colors duration-200 h-9; /* focus:ring-primary focus:ring-opacity-50-г хасав */
     outline: none;
     &:focus {
       border-color: var(--primary); /* focus:border-primary */
@@ -248,7 +248,7 @@ body {
   }
 
   nav {
-    @apply border-b flex items-center border-border-color fixed top-0 left-0 right-0 z-50 bg-surface h-11; /* Дээд талд тогтмол байрлуулж, сүүдэр нэмэв */
+    @apply border-b flex items-center border-border-color fixed top-0 left-0 right-0 z-50 bg-surface h-16; /* Дээд талд тогтмол байрлуулж, сүүдэр нэмэв */
   }
   .nav-wrapper {
     @apply mx-auto w-full flex items-center justify-between gap-2 max-w-[1400px] px-2;
