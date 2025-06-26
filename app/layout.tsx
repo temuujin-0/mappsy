@@ -31,6 +31,7 @@ export default async function RootLayout({
                     disableTransitionOnChange
                 >
                     <Navbar />
+                    <div className='h-[64px]'></div>
                     <div className="flex flex-col min-h-screen">
                         <div className="flex-grow">
                             {children}

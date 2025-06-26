@@ -289,7 +289,7 @@ export default function ThemePreviewPage() {
     ]
 
     return (
-        <Card className="p-6 m-6 mt-16 space-y-10">
+        <Card className="p-6 m-6 space-y-10">
             <h1>🎨 Theme</h1>
 
             <section className="">
