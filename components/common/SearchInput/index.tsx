@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-// Dummy data for search results
 interface Place {
     id: string;
     name: string;
@@ -53,9 +52,7 @@ export function SearchInput() {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 640px)");
 
-    // Хайлт хийх функц
     const handleSearch = useCallback(() => {
-        // Only proceed with search if searchTerm is not empty
         if (!searchTerm.trim()) {
         alert(t('Хайх үгээ оруулна уу.'));
         return;
@@ -66,7 +63,6 @@ export function SearchInput() {
         setIsPopoverOpen(false);
     }, [searchTerm, router, t]);
 
-    // Төстэй үр дүн хайх функц
     useEffect(() => {
         const fetchSuggestions = async () => {
         if (searchTerm.length > 2) {
@@ -98,118 +94,112 @@ export function SearchInput() {
         return () => clearTimeout(timer);
     }, [searchTerm]);
 
-    // Input дээр Enter дарах үед хайлт хийх
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-        // Утга хоосон бол зүгээр л буцаана (alert харуулахгүй).
         if (!searchTerm.trim()) {
-            return; // Утга хоосон бол хайлт хийхгүй, мөн alert ч харуулахгүй
+            return;
         }
         handleSearch();
         }
     };
 
-    // Shared search input and suggestions content
     const SearchInputAndSuggestions = (
         <div className="relative flex-grow w-full">
-        <Input
-            ref={searchInputRef}
-            type="text"
-            placeholder={t("Хайх...")}
-            className="pr-10 pl-4 py-1.5 w-full h-full border rounded-md shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-        />
-        {/* Search icon баруун талд */}
-        <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleSearch}
-            className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-10 p-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0"
-            disabled={isLoading || !searchTerm.trim()} // Disable button if loading or search term is empty
-        >
-            {isLoading ? (
-            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-            ) : (
-            <Search className="h-5 w-5 text-muted-foreground" />
-            )}
-        </Button>
+            <Input
+                ref={searchInputRef}
+                type="text"
+                placeholder={t("Хайх...")}
+                className="pr-10 pl-4 py-1.5 h-[36px] w-full border rounded-md shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={handleKeyPress}
+            />
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleSearch}
+                className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-10 p-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                disabled={isLoading || !searchTerm.trim()}
+            >
+                {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                ) : (
+                <Search className="h-5 w-5 text-muted-foreground" />
+                )}
+            </Button>
 
-        {/* Хайлтын санал - Popover дотор */}
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-            <PopoverTrigger asChild>
-            {/* PopoverTrigger-ийг хайлтын Input-тэй ижил хэмжээтэй болгож, харагдахгүй болгоно */}
-            <div className="absolute w-full h-full top-0 left-0 -z-10 cursor-default" />
-            </PopoverTrigger>
-            <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
-            {suggestions.length > 0 ? (
-                <Command>
-                <CommandList>
-                    <CommandGroup>
-                    {suggestions.slice(0, 10).map((place) => (
-                        <CommandItem
-                        key={place.id}
-                        value={place.name}
-                        onSelect={() => {
-                            setSearchTerm(place.name);
-                            setSuggestions([]);
-                            setIsPopoverOpen(false);
-                            searchInputRef.current?.focus();
-                            handleSearch();
-                        }}
-                        className="cursor-pointer"
-                        >
-                        {place.name} <span className="text-muted-foreground text-sm ml-2">{place.address}</span>
-                        </CommandItem>
-                    ))}
-                    </CommandGroup>
-                </CommandList>
-                </Command>
-            ) : (
-                !isLoading && searchTerm.length > 2 && (
-                <div className="px-4 py-2 text-muted-foreground text-center">
-                    {t('Илэрц олдсонгүй.')}
-                </div>
-                )
-            )}
-            {suggestions.length > 10 && (
-                <div className="px-4 py-2 text-center text-primary cursor-pointer hover:underline" onClick={() => {
-                handleSearch();
-                setIsPopoverOpen(false);
-                }}>
-                {t('Илэрц бүгдийг харах')}
-                </div>
-            )}
-            </PopoverContent>
-        </Popover>
+            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                <PopoverTrigger asChild>
+                <div className="absolute w-full h-full top-0 left-0 -z-10 cursor-default" />
+                </PopoverTrigger>
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+                {suggestions.length > 0 ? (
+                    <Command>
+                        <CommandList>
+                            <CommandGroup>
+                            {suggestions.slice(0, 10).map((place) => (
+                                <CommandItem
+                                key={place.id}
+                                value={place.name}
+                                onSelect={() => {
+                                    setSearchTerm(place.name);
+                                    setSuggestions([]);
+                                    setIsPopoverOpen(false);
+                                    searchInputRef.current?.focus();
+                                    handleSearch();
+                                }}
+                                className="cursor-pointer"
+                                >
+                                {place.name} <span className="text-muted-foreground text-sm ml-2">{place.address}</span>
+                                </CommandItem>
+                            ))}
+                            </CommandGroup>
+                        </CommandList>
+                    </Command>
+                ) : (
+                    !isLoading && searchTerm.length > 2 && (
+                    <div className="px-4 py-2 text-muted-foreground text-center">
+                        {t('Илэрц олдсонгүй.')}
+                    </div>
+                    )
+                )}
+                {suggestions.length > 10 && (
+                    <div className="px-4 py-2 text-center text-primary cursor-pointer hover:underline" onClick={() => {
+                    handleSearch();
+                    setIsPopoverOpen(false);
+                    }}>
+                    {t('Илэрц бүгдийг харах')}
+                    </div>
+                )}
+                </PopoverContent>
+            </Popover>
         </div>
     );
 
     return (
         <div className="flex justify-center w-full">
-        {isDesktop ? (
-            <div className="flex items-center overflow-hidden flex-grow max-w-2xl">
-            {SearchInputAndSuggestions}
-            </div>
-        ) : (
-            <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} direction="left">
-                <DrawerTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full sm:hidden">
-                    <Search className="h-5 w-5" />
-                    </Button>
-                </DrawerTrigger>
-                <DrawerContent className="h-full w-full max-w-sm right-0 top-0 mt-0 rounded-none fixed">
-                    <DrawerHeader>
-                    <DrawerTitle>{t("Хайлт хийх")}</DrawerTitle>
-                    <DrawerDescription>{t("Хайх үгээ оруулна уу.")}</DrawerDescription>
-                    </DrawerHeader>
-                    <div className="px-4 py-2 flex flex-col items-center">
-                    {SearchInputAndSuggestions}
-                    </div>
-                </DrawerContent>
-            </Drawer>
-        )}
+            {isDesktop ? (
+                <div className="flex items-center overflow-hidden flex-grow max-w-2xl">
+                {SearchInputAndSuggestions}
+                </div>
+            ) : (
+                <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} direction="left">
+                    <DrawerTrigger asChild>
+                        <Button variant="outline" size="icon" className="rounded-full sm:hidden">
+                            <Search className="h-5 w-5" />
+                        </Button>
+                    </DrawerTrigger>
+                    <DrawerContent className="h-full w-full max-w-sm right-0 top-0 mt-0 rounded-none fixed">
+                        <DrawerHeader>
+                            <DrawerTitle>{t("Хайлт хийх")}</DrawerTitle>
+                            <DrawerDescription>{t("Хайх үгээ оруулна уу.")}</DrawerDescription>
+                        </DrawerHeader>
+                        <div className="px-4 py-2 flex flex-col items-center">
+                        {SearchInputAndSuggestions}
+                        </div>
+                    </DrawerContent>
+                </Drawer>
+            )}
         </div>
     );
 }
